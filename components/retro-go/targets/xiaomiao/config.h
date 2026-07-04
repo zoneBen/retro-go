@@ -13,7 +13,7 @@
 // Audio
 // 注意：此硬件使用 GPIO14 蜂鸣器，Retro-Go 使用内部 DAC
 // 将使用 GPIO25/26 作为音频输出（如果需要音频）
-#define RG_AUDIO_USE_INT_DAC        3   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
+#define RG_AUDIO_USE_INT_DAC        0   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
 #define RG_AUDIO_USE_EXT_DAC        0   // 0 = Disable, 1 = Enable
 
 // Video - 160x128 ST7735/ST7789 显示屏
@@ -99,4 +99,4 @@
 // #define RG_GPIO_SND_AMP_ENABLE      GPIO_NUM_NC
 
 // Updater - 禁用
-// #define RG_UPDATER_ENABLE           0
+#define RG_UPDATER_ENABLE           0
