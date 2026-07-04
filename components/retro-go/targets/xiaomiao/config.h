@@ -23,7 +23,7 @@
 #define RG_SCREEN_BACKLIGHT         0   // 无背光控制或常亮
 #define RG_SCREEN_WIDTH             160
 #define RG_SCREEN_HEIGHT            128
-#define RG_SCREEN_ROTATE            0   // 根据实际显示调整
+#define RG_SCREEN_ROTATE            2   // 试试这个值: 0,1,2,3
 #define RG_SCREEN_VISIBLE_AREA      {0, 0, 0, 0}
 #define RG_SCREEN_SAFE_AREA         {0, 0, 0, 0}
 
@@ -41,7 +41,7 @@
     ILI9341_CMD(0xC3, 0x8A, 0x2A);                                                                             \
     ILI9341_CMD(0xC4, 0x8A, 0xEE);                                                                             \
     ILI9341_CMD(0xC5, 0x0E);                                                                                   \
-    ILI9341_CMD(0x36, 0xC0);         /* 内存访问控制: MY=1, MX=1, MV=0, ML=0, BGR=1, MH=0, RGB/BGR order */    \
+    ILI9341_CMD(0x36, 0x00);         /* 内存访问控制: 尝试不同的值: 0x00, 0xC0, 0xA0, 0x40, 0x60, 0x20 */    \
     ILI9341_CMD(0x3A, 0x05);         /* 像素格式: 16-bit/pixel */                                             \
     ILI9341_CMD(0xE0, 0x0F, 0x1A, 0x0F, 0x18, 0x2F, 0x28, 0x20, 0x22, 0x1F, 0x1B, 0x23, 0x37, 0x00, 0x07, 0x02, 0x10); \
     ILI9341_CMD(0xE1, 0x0F, 0x1B, 0x0F, 0x17, 0x33, 0x2C, 0x29, 0x2E, 0x30, 0x30, 0x39, 0x3F, 0x00, 0x07, 0x03, 0x10); \
@@ -100,3 +100,7 @@
 
 // Updater - 禁用
 #define RG_UPDATER_ENABLE           0
+
+// Default language - 默认语言为中文
+// (This overrides the default in the main config.h)
+#define RG_LANG_DEFAULT             RG_LANG_ZH

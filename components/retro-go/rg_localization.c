@@ -1,7 +1,7 @@
 #include "rg_system.h"
 #include "translations.h"
 
-static int rg_language = RG_LANG_EN;
+static int rg_language = RG_LANG_DEFAULT;
 
 int rg_localization_get_language_id(void)
 {
