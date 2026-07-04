@@ -11,8 +11,8 @@
 // #define RG_I2C_GPIO_ADDR            0x00
 
 // Audio
-// 注意：此硬件使用 GPIO14 蜂鸣器，Retro-Go 使用内部 DAC
-// 将使用 GPIO25/26 作为音频输出（如果需要音频）
+// 此硬件使用 GPIO14 无源蜂鸣器，通过 PWM (LEDC) 驱动
+#define RG_AUDIO_USE_BUZZER_PIN     14  // GPIO14 蜂鸣器
 #define RG_AUDIO_USE_INT_DAC        0   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
 #define RG_AUDIO_USE_EXT_DAC        0   // 0 = Disable, 1 = Enable
 
