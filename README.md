@@ -13,6 +13,61 @@ ODROID-GO and MRGC-G32, check [this list for other devices](components/retro-go/
 The project consists of a launcher and half a dozen applications that have been heavily
 optimized to reduce their cpu, memory, and flash needs without reducing compatibility!
 
+### Supported Devices
+- ODROID-GO (Official)
+- MRGC-G32 (Official)
+- XIAOMIAO (160x128 ST7735 display, 6 keys + virtual combos)
+- And many more, check the full list [here](components/retro-go/README.md)
+
+---
+
+## XIAOMIAO 分支改动 (xiaomiao branch)
+
+### 硬件配置
+| 组件 | 规格 |
+|------|------|
+| **主控** | ESP32 |
+| **显示屏** | ST7735 160x128 (SPI2, 与 SD 卡共享) |
+| **按键** | 6个物理按键 + 虚拟组合按键 |
+| **存储** | MicroSD 卡 (SPI2) |
+| **音频** | 内部 DAC (GPIO25/26) |
+| **蜂鸣器** | GPIO14 (PWM) |
+| **传感器** | 光照 (GPIO36)、温度 (GPIO39) |
+| **总线** | I2C (GPIO15/21), UART0 (GPIO1/3) |
+
+### 按键映射
+| 按键 | 引脚 | 说明 |
+|------|------|------|
+| UP | GPIO2 | 内部上拉 |
+| DOWN | GPIO13 | 内部上拉 |
+| LEFT | GPIO27 | 内部上拉 |
+| RIGHT | GPIO35 | 仅输入，需外部上拉 |
+| A | GPIO34 | 仅输入，需外部上拉 |
+| B | GPIO12 | 启动敏感，内部上拉 |
+
+### 虚拟按键组合
+| 组合 | 功能 |
+|------|------|
+| UP + DOWN | SELECT |
+| LEFT + RIGHT | START |
+| A + B | MENU |
+
+### 硬件注意事项
+- GPIO34/35 需要外部上拉电阻
+- GPIO12 启动时避免高电平
+- TFT RST 与 SD MISO 共享 (GPIO19)
+- 显示与 SD 卡共享 SPI2 总线 (SCK:18, MOSI:23, MISO:19)
+
+### 最近改动 (xiaomiao branch)
+- `6f694283` 关于小喵 - 添加关于页面
+- `9f85fb28` 新增关于页面
+- `21a8eaf7` 中文汉化
+- `e950d127` 新增声音
+- `24308035` 初步移植
+- `89a84df5` Add xiaomiao target device support
+
+---
+
 ### Supported systems:
 - Nintendo: **NES, SNES (slow), Gameboy, Gameboy Color, Game & Watch**
 - Sega: **SG-1000, Master System, Mega Drive / Genesis, Game Gear**

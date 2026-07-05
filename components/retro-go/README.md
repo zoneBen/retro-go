@@ -23,6 +23,7 @@ Retro-Go's shared library (or framework) provides an easy way to port emulators 
 | [retro-ruler](targets/retro-ruler-V1/docs/README.md)          |   |
 | [sdl2](targets/sdl2/docs/README.md)                           | Broken |
 | [t-deck-plus](targets/t-deck-plus/docs/README.md)             |  |
+| [xiaomiao](targets/xiaomiao/README.md)                        | 160x128 ST7735, 6 keys |
 
 
 # Credits
