@@ -133,6 +133,11 @@ bool rg_gui_set_language_id(int index)
     if (rg_localization_set_language_id(index))
     {
         rg_settings_set_number(NS_GLOBAL, SETTING_LANGUAGE, index);
+        // Auto switch to Chinese font when language is Chinese
+        if (index == RG_LANG_ZH)
+        {
+            rg_gui_set_font(RG_FONT_CHINESE_12);
+        }
         RG_LOGI("Language set to: %s (%d)", rg_localization_get_language_name(index), index);
         return true;
     }

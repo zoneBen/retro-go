@@ -20,7 +20,7 @@ PROJECT_ICON = os.getenv("PROJECT_ICON", "assets/icon.raw")
 PROJECT_APPS = {
   # Project name  Type, SubType, Size
   'launcher':     [0, 16, 1048576],
-  'retro-core':   [0, 16, 1048576],
+  'retro-core':   [0, 16, 1835008],
   'prboom-go':    [0, 16, 786432],
   'gwenesis':     [0, 16, 1048576],
   'fmsx':         [0, 16, 589824],
@@ -113,6 +113,22 @@ def clean_app(app):
 def build_app(app, device_type, with_profiling=False, no_networking=False, is_release=False):
     # To do: clean up if any of the flags changed since last build
     print("Building app '%s'" % app)
+
+    app_dir = os.path.join(os.getcwd(), app)
+
+    # 检查是否有设备特定的分区表
+    target_partitions = os.path.join(os.getcwd(), f"components/retro-go/targets/{device_type}/partitions.csv")
+    if os.path.exists(target_partitions):
+        import shutil
+        shutil.copy(target_partitions, os.path.join(app_dir, "partitions.csv"))
+    else:
+        # 获取该应用的分区大小，确保足够大
+        part_size = PROJECT_APPS.get(app, [0, 0, 3145728])[2]
+        temp_size = max(part_size, 3145728)  # 至少 3MB
+        with open(os.path.join(app_dir, "partitions.csv"), "w") as f:
+            f.write("# This table isn't used, it's just needed to avoid esp-idf build failures.\n")
+            f.write(f"dummy, app, ota_0, 65536, {temp_size}\n")
+
     args = [IDF_PY, "app"]
     args.append(f"-DRG_PROJECT_APP={app}")
     args.append(f"-DRG_PROJECT_VER={PROJECT_VER}")
@@ -120,10 +136,8 @@ def build_app(app, device_type, with_profiling=False, no_networking=False, is_re
     args.append(f"-DRG_BUILD_RELEASE={1 if is_release else 0}")
     args.append(f"-DRG_ENABLE_PROFILING={1 if with_profiling else 0}")
     args.append(f"-DRG_ENABLE_NETWORKING={0 if no_networking else 1}")
-    with open("partitions.csv", "w") as f:
-        f.write("# This table isn't used, it's just needed to avoid esp-idf build failures.\n")
-        f.write("dummy, app, ota_0, 65536, 3145728\n")
-    run(args, cwd=os.path.join(os.getcwd(), app))
+
+    run(args, cwd=app_dir)
     print("Done.\n")
 
 

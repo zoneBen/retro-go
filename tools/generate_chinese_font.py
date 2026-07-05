@@ -5,6 +5,7 @@ Uses the same format as font_converter.py
 """
 import os
 import sys
+import argparse
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -14,6 +15,23 @@ def get_char_list(ranges_str):
         ranges_str = ranges_str.replace(" ", "").split(',')
     list_char = []
     for intervals in ranges_str:
+        # 🌟 新增：支持从文本文件加载字符（例如输入 "file:gb2312.txt"）
+        if intervals.startswith('file:'):
+            filepath = intervals[5:]
+            if os.path.exists(filepath):
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        for char in content:
+                            if char.strip():
+                                list_char.append(ord(char))
+                    print(f"成功从文件加载字符: {filepath}")
+                except Exception as e:
+                    print(f"读取文件失败 {filepath}: {e}")
+            else:
+                print(f"文件未找到: {filepath}")
+            continue
+
         first = intervals.split('-')[0]
         try:
             second = intervals.split('-')[1]
@@ -62,16 +80,20 @@ def find_chinese_font():
         "C:\\Windows\\Fonts",
     ]
 
-    # Font patterns to look for
+    # 🌟 优化：增加 Windows 常见中文字体文件名匹配 (全小写)
     font_patterns = [
-        "NotoSansCJK",
-        "Noto Sans CJK",
+        "notosanscjk",
+        "noto sans cjk",
         "wqy",
-        "WenQuanYi",
-        "SimHei",
-        "SimSun",
-        "Microsoft YaHei",
-        "SourceHanSans",
+        "wenquanyi",
+        "simhei",      # 黑体
+        "simsun",      # 宋体
+        "msyh",        # 微软雅黑 (Windows)
+        "microsoft yahei",
+        "sourcehansans",
+        "dengxian",    # 等线 (Win10/11)
+        "fangsong",    # 仿宋
+        "kaiti",       # 楷体
     ]
 
     for font_dir in font_dirs:
@@ -80,7 +102,7 @@ def find_chinese_font():
         for root, _, files in os.walk(font_dir):
             for font_file in files:
                 if font_file.endswith(('.ttf', '.ttc', '.otf')):
-                    if any(pattern.lower() in font_file.lower() for pattern in font_patterns):
+                    if any(pattern in font_file.lower() for pattern in font_patterns):
                         try:
                             font_path = os.path.join(root, font_file)
                             ImageFont.truetype(font_path, 12)
@@ -257,34 +279,61 @@ def generate_c_font(font_name, font_size, font_data):
 
 
 def main():
-    # Read the extracted character ranges
-    ranges_file = "build/chinese_ranges.txt"
-    if not os.path.exists(ranges_file):
-        print(f"Error: {ranges_file} not found. Run extract_chinese_chars.py first.")
-        sys.exit(1)
+    # 🌟 新增：支持命令行参数
+    parser = argparse.ArgumentParser(description="Generate Chinese font for Retro-Go")
+    parser.add_argument("-r", "--ranges", type=str, help="Character ranges (e.g., '32-127, 0x4E00-0x9FA5' or 'file:chars.txt')")
+    parser.add_argument("-s", "--size", type=int, default=12, help="Font size (default: 12)")
+    parser.add_argument("-o", "--output", type=str, default=None, help="Output C file path")
+    parser.add_argument("-f", "--font", type=str, default=None, help="Specify TTF font path directly")
+    args = parser.parse_args()
 
-    with open(ranges_file, 'r', encoding='utf-8') as f:
-        char_ranges = f.read().strip()
+    # 1. 确定字符范围
+    if args.ranges:
+        char_ranges = args.ranges
+    else:
+        ranges_file = "build/chinese_ranges.txt"
+        if os.path.exists(ranges_file):
+            with open(ranges_file, 'r', encoding='utf-8') as f:
+                char_ranges = f.read().strip()
+            char_ranges = "32-127, " + char_ranges
+            print(f"Read ranges from {ranges_file}")
+        else:
+            # 🌟 核心修改：找不到文件时，默认使用所有常用汉字 (CJK 统一汉字基本区)
+            char_ranges = "32-127, 0x4E00-0x9FA5"
+            print(f"Warning: {ranges_file} not found. Using default ranges (ASCII + CJK Basic).")
+            
+    print(f"Character ranges to process: {char_ranges[:80]}{'...' if len(char_ranges)>80 else ''}")
 
-    # Also add basic ASCII for convenience
-    char_ranges = "32-127, " + char_ranges
+    # 2. 确定字体
+    if args.font:
+        font_path = args.font
+        if not os.path.exists(font_path):
+            print(f"Error: Specified font not found: {font_path}")
+            sys.exit(1)
+    else:
+        font_path = find_chinese_font()
+        if not font_path:
+            print("Error: Could not find a suitable font.")
+            print("Please install fonts-noto-cjk / fonts-wqy-microhei, or specify a font with -f")
+            sys.exit(1)
 
-    print(f"Character ranges: {char_ranges}")
+    # 3. 确定输出文件
+    if args.output:
+        output_file = args.output
+    else:
+        output_file = f"components/retro-go/fonts/Chinese{args.size}.c"
+        
+    # 🌟 新增：自动创建输出目录
+    out_dir = os.path.dirname(output_file)
+    if out_dir and not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+        print(f"Created output directory: {out_dir}")
 
-    # Find font
-    font_path = find_chinese_font()
-    if not font_path:
-        print("Error: Could not find a suitable font.")
-        print("Please install fonts-noto-cjk or fonts-wqy-microhei")
-        sys.exit(1)
+    # 4. Generate font
+    print(f"Generating Chinese font (size {args.size})... This may take a while for large ranges.")
+    font_name, font_size, font_data = load_ttf_font(font_path, args.size, char_ranges)
 
-    # Generate font
-    font_size = 12
-    print(f"Generating Chinese font (size {font_size})...")
-    font_name, font_size, font_data = load_ttf_font(font_path, font_size, char_ranges)
-
-    # Save the output
-    output_file = "components/retro-go/fonts/Chinese12.c"
+    # 5. Save the output
     c_code = generate_c_font(font_name, font_size, font_data)
 
     with open(output_file, 'w', encoding='utf-8') as f:

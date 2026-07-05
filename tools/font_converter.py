@@ -77,7 +77,9 @@ import re
 # And that's basically how characters are encoded using this tool
 
 # Example usage (defaults parameters)
-list_char_ranges_init = "32-126, 160-255"
+# 添加了 0x4E00-0x9FA5 (CJK 统一汉字基本区，包含 20902 个常用汉字)
+# 💡 提示：全量汉字会导致生成的 C 文件极大。建议在实际工程中，使用 file:xxx.txt 格式只提取 UI 用到的汉字。
+list_char_ranges_init = "32-126, 160-255, 0x4E00-0x9FA5"
 font_size_init = 11
 
 font_path = ("arial.ttf")  # Replace with your TTF font path
@@ -91,8 +93,26 @@ def get_char_list(ranges):
         ranges = ranges.replace(" ", "").split(',')
     list_char = []
     for intervals in ranges:
+        # 🌟 新增：支持从文本文件加载字符（例如输入 "file:gb2312.txt" 或 "file:ui_chars.txt"）
+        if intervals.startswith('file:'):
+            filepath = intervals[5:]
+            if os.path.exists(filepath):
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        for char in content:
+                            # 过滤掉换行符和空格，只保留有效字符
+                            if char.strip():
+                                list_char.append(ord(char))
+                    print(f"成功从文件加载 {len([c for c in content if c.strip()])} 个字符: {filepath}")
+                except Exception as e:
+                    print(f"读取文件失败 {filepath}: {e}")
+            else:
+                print(f"文件未找到: {filepath}")
+            continue
+
         first = intervals.split('-')[0]
-        # we check if we the user input is a single char or an interval
+        # we check if the user input is a single char or an interval
         try:
             second = intervals.split('-')[1]
         except IndexError:
@@ -101,8 +121,8 @@ def get_char_list(ranges):
             second = intervals.split('-')[1]
             for char in range(int(first, 0), int(second, 0) + 1):
                 list_char.append(char)
+                
     return sorted(set(list_char))
-
 def get_ranges_list(char_codes):
     char_codes = sorted(set(char_codes))
     ranges = []

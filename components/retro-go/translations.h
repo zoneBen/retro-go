@@ -1178,6 +1178,91 @@ static const char *translations[][RG_LANG_MAX] =
         [RG_LANG_DE] = "SRAM-Datei löschen?",
         [RG_LANG_ZH] = "删除SRAM文件？",
     },
+    // Console/System names
+    {
+        [RG_LANG_EN] = "Nintendo Entertainment System",
+        [RG_LANG_FR] = "Nintendo Entertainment System",
+        [RG_LANG_DE] = "Nintendo Entertainment System",
+        [RG_LANG_ZH] = "任天堂红白机",
+    },
+    {
+        [RG_LANG_EN] = "Super Nintendo",
+        [RG_LANG_FR] = "Super Nintendo",
+        [RG_LANG_DE] = "Super Nintendo",
+        [RG_LANG_ZH] = "超级任天堂",
+    },
+    {
+        [RG_LANG_EN] = "Nintendo Gameboy",
+        [RG_LANG_FR] = "Nintendo Gameboy",
+        [RG_LANG_DE] = "Nintendo Gameboy",
+        [RG_LANG_ZH] = "任天堂GameBoy",
+    },
+    {
+        [RG_LANG_EN] = "Nintendo Gameboy Color",
+        [RG_LANG_FR] = "Nintendo Gameboy Color",
+        [RG_LANG_DE] = "Nintendo Gameboy Color",
+        [RG_LANG_ZH] = "任天堂GameBoy Color",
+    },
+    {
+        [RG_LANG_EN] = "Nintendo Gameboy Advance",
+        [RG_LANG_FR] = "Nintendo Gameboy Advance",
+        [RG_LANG_DE] = "Nintendo Gameboy Advance",
+        [RG_LANG_ZH] = "任天堂GBA",
+    },
+    {
+        [RG_LANG_EN] = "Nintendo Game & Watch",
+        [RG_LANG_FR] = "Nintendo Game & Watch",
+        [RG_LANG_DE] = "Nintendo Game & Watch",
+        [RG_LANG_ZH] = "任天堂Game & Watch",
+    },
+    {
+        [RG_LANG_EN] = "Sega Master System",
+        [RG_LANG_FR] = "Sega Master System",
+        [RG_LANG_DE] = "Sega Master System",
+        [RG_LANG_ZH] = "世嘉Master System",
+    },
+    {
+        [RG_LANG_EN] = "Sega Game Gear",
+        [RG_LANG_FR] = "Sega Game Gear",
+        [RG_LANG_DE] = "Sega Game Gear",
+        [RG_LANG_ZH] = "世嘉Game Gear",
+    },
+    {
+        [RG_LANG_EN] = "Sega Mega Drive",
+        [RG_LANG_FR] = "Sega Mega Drive",
+        [RG_LANG_DE] = "Sega Mega Drive",
+        [RG_LANG_ZH] = "世嘉Mega Drive",
+    },
+    {
+        [RG_LANG_EN] = "Coleco ColecoVision",
+        [RG_LANG_FR] = "Coleco ColecoVision",
+        [RG_LANG_DE] = "Coleco ColecoVision",
+        [RG_LANG_ZH] = "ColecoVision",
+    },
+    {
+        [RG_LANG_EN] = "NEC PC Engine",
+        [RG_LANG_FR] = "NEC PC Engine",
+        [RG_LANG_DE] = "NEC PC Engine",
+        [RG_LANG_ZH] = "NEC PC Engine",
+    },
+    {
+        [RG_LANG_EN] = "Atari Lynx",
+        [RG_LANG_FR] = "Atari Lynx",
+        [RG_LANG_DE] = "Atari Lynx",
+        [RG_LANG_ZH] = "Atari Lynx",
+    },
+    {
+        [RG_LANG_EN] = "DOOM",
+        [RG_LANG_FR] = "DOOM",
+        [RG_LANG_DE] = "DOOM",
+        [RG_LANG_ZH] = "毁灭战士",
+    },
+    {
+        [RG_LANG_EN] = "MSX",
+        [RG_LANG_FR] = "MSX",
+        [RG_LANG_DE] = "MSX",
+        [RG_LANG_ZH] = "MSX",
+    },
     // end of applications.c
 
 
