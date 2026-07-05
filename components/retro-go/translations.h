@@ -803,7 +803,7 @@ static const char *translations[][RG_LANG_MAX] =
         [RG_LANG_EN] = "About",
         [RG_LANG_FR] = "Infos",
         [RG_LANG_DE] = "Infos",
-        [RG_LANG_ZH] = "关于",
+        [RG_LANG_ZH] = "关于小喵",
     },
     {
         [RG_LANG_EN] = "Quit",
@@ -1314,7 +1314,7 @@ static const char *translations[][RG_LANG_MAX] =
         [RG_LANG_EN] = "Xiaomiao",
         [RG_LANG_FR] = "Xiaomiao",
         [RG_LANG_DE] = "Xiaomiao",
-        [RG_LANG_ZH] = "小葱",
+        [RG_LANG_ZH] = "学而思小喵",
     },
     {
         [RG_LANG_EN] = "Based on Retro-Go port",
@@ -1326,13 +1326,13 @@ static const char *translations[][RG_LANG_MAX] =
         [RG_LANG_EN] = "Bilibili: zoneBen",
         [RG_LANG_FR] = "Bilibili: zoneBen",
         [RG_LANG_DE] = "Bilibili: zoneBen",
-        [RG_LANG_ZH] = "B站: zoneBen",
+        [RG_LANG_ZH] = "B站: zoneBen \n QQ: 809468582",
     },
     {
-        [RG_LANG_EN] = "QQ: 809468582",
-        [RG_LANG_FR] = "QQ: 809468582",
-        [RG_LANG_DE] = "QQ: 809468582",
-        [RG_LANG_ZH] = "QQ: 809468582",
+        [RG_LANG_EN] = "https://github.com/zoneBen/retro-go",
+        [RG_LANG_FR] = "https://github.com/zoneBen/retro-go",
+        [RG_LANG_DE] = "https://github.com/zoneBen/retro-go",
+        [RG_LANG_ZH] = "开源地址 https://github.com/zoneBen/retro-go",
     },
     // end of rg_system.c
 };
