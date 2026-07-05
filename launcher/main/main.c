@@ -203,6 +203,7 @@ static void retro_loop(void)
     gui_init(app->isColdBoot);
     applications_init();
     bookmarks_init();
+    xiaomiao_tab_register();
     // browser_init();
 
 #ifdef RG_ENABLE_NETWORKING

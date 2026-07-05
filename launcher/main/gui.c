@@ -470,7 +470,7 @@ void gui_draw_header(tab_t *tab, int offset)
     if (tab->banner)
         rg_gui_draw_image(LOGO_WIDTH + 1, offset + 8, 0, HEADER_HEIGHT - 8, false, tab->banner);
     else
-        rg_gui_draw_text(LOGO_WIDTH + 8, offset + 8, 0, _(tab->desc), gui.theme->foreground, C_TRANSPARENT, RG_TEXT_BIGGER);
+        rg_gui_draw_text(LOGO_WIDTH + 8, offset + 8, 0, tab->desc, gui.theme->foreground, C_TRANSPARENT, RG_TEXT_BIGGER);
 }
 
 void gui_draw_tab_indicator(void)

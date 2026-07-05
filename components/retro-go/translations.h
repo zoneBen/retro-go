@@ -1309,5 +1309,30 @@ static const char *translations[][RG_LANG_MAX] =
         [RG_LANG_DE] = "Speichern fehlgeschlagen",
         [RG_LANG_ZH] = "保存失败",
     },
+    // Xiaomiao tab
+    {
+        [RG_LANG_EN] = "Xiaomiao",
+        [RG_LANG_FR] = "Xiaomiao",
+        [RG_LANG_DE] = "Xiaomiao",
+        [RG_LANG_ZH] = "小葱",
+    },
+    {
+        [RG_LANG_EN] = "Based on Retro-Go port",
+        [RG_LANG_FR] = "Based on Retro-Go port",
+        [RG_LANG_DE] = "Based on Retro-Go port",
+        [RG_LANG_ZH] = "基于Retro-Go移植",
+    },
+    {
+        [RG_LANG_EN] = "Bilibili: zoneBen",
+        [RG_LANG_FR] = "Bilibili: zoneBen",
+        [RG_LANG_DE] = "Bilibili: zoneBen",
+        [RG_LANG_ZH] = "B站: zoneBen",
+    },
+    {
+        [RG_LANG_EN] = "QQ: 809468582",
+        [RG_LANG_FR] = "QQ: 809468582",
+        [RG_LANG_DE] = "QQ: 809468582",
+        [RG_LANG_ZH] = "QQ: 809468582",
+    },
     // end of rg_system.c
 };

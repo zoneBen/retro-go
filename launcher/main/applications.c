@@ -25,6 +25,8 @@ static bool crc_cache_dirty = true;
 static retro_app_t *apps[24];
 static int apps_count = 0;
 
+static void xiaomiao_tab_event_handler(gui_event_t event, tab_t *tab);
+
 static int scan_folder_cb(const rg_scandir_t *entry, void *arg)
 {
     retro_app_t *app = (retro_app_t *)arg;
@@ -712,4 +714,101 @@ void applications_init(void)
 
     if (!rg_system_get_app()->lowMemoryMode)
         crc_cache_init();
+}
+void xiaomiao_tab_register(void)
+{
+    // Register the Xiaomiao tab with unique name
+    tab_t *tab = gui_add_tab("xiaomiao", _("About"), NULL, xiaomiao_tab_event_handler);
+}
+
+static void xiaomiao_tab_event_handler(gui_event_t event, tab_t *tab)
+{
+    if (event == TAB_INIT)
+    {
+        tab->navpath = NULL;
+        gui_set_status(tab, _("Xiaomiao"), "");
+        // Manually load the background from "recent" tab
+        if (!tab->background)
+        {
+            tab->background = gui_get_image("background", "recent");
+            tab->background_shade = 0;
+            if (tab->background && (tab->background->width != gui.width || tab->background->height != gui.height))
+            {
+                rg_image_t *temp = rg_surface_resize(tab->background, gui.width, gui.height);
+                if (temp)
+                {
+                    rg_surface_free(tab->background);
+                    tab->background = temp;
+                }
+            }
+        }
+        // Also try to load logo from "recent" tab
+        if (!tab->logo)
+        {
+            tab->logo = gui_get_image("logo", "recent");
+        }
+        // Don't load banner, so it will show text "About"
+        tab->banner = NULL;
+
+        // Set up our static content using listbox like other tabs
+        gui_resize_list(tab, 6);
+
+        // Clear any existing items
+        for (int i = 0; i < tab->listbox.capacity; i++) {
+            memset(&tab->listbox.items[i], 0, sizeof(listbox_item_t));
+        }
+
+        // Add our content lines
+        snprintf(tab->listbox.items[0].text, sizeof(tab->listbox.items[0].text), _("Xiaomiao"));
+        snprintf(tab->listbox.items[1].text, sizeof(tab->listbox.items[1].text), " ");
+        snprintf(tab->listbox.items[2].text, sizeof(tab->listbox.items[2].text), _("Based on Retro-Go port"));
+        snprintf(tab->listbox.items[3].text, sizeof(tab->listbox.items[3].text), _("Bilibili: zoneBen"));
+        snprintf(tab->listbox.items[4].text, sizeof(tab->listbox.items[4].text), _("QQ: 809468582"));
+        snprintf(tab->listbox.items[5].text, sizeof(tab->listbox.items[5].text), " ");
+
+        tab->listbox.cursor = 0;
+        tab->listbox.sort_mode = SORT_NONE;
+        gui_scroll_list(tab, SCROLL_SET, tab->listbox.cursor);
+    }
+    else if (event == TAB_DEINIT)
+    {
+        // Cleanup if needed
+    }
+    else if (event == TAB_ENTER || event == TAB_LEAVE || event == TAB_SCROLL)
+    {
+        gui_set_status(tab, _("Xiaomiao"), "");
+        gui_set_preview(tab, NULL);
+        // Ensure banner stays NULL to show text "About"
+        if (event == TAB_ENTER)
+        {
+            tab->banner = NULL;
+        }
+    }
+    else if (event == TAB_REFRESH)
+    {
+        // Refresh the static content
+        gui_resize_list(tab, 6);
+
+        snprintf(tab->listbox.items[0].text, sizeof(tab->listbox.items[0].text), _("Xiaomiao"));
+        snprintf(tab->listbox.items[1].text, sizeof(tab->listbox.items[1].text), " ");
+        snprintf(tab->listbox.items[2].text, sizeof(tab->listbox.items[2].text), _("Based on Retro-Go port"));
+        snprintf(tab->listbox.items[3].text, sizeof(tab->listbox.items[3].text), _("Bilibili: zoneBen"));
+        snprintf(tab->listbox.items[4].text, sizeof(tab->listbox.items[4].text), _("QQ: 809468582"));
+        snprintf(tab->listbox.items[5].text, sizeof(tab->listbox.items[5].text), " ");
+
+        tab->listbox.cursor = 0;
+        gui_scroll_list(tab, SCROLL_SET, tab->listbox.cursor);
+    }
+    else if (event == TAB_IDLE)
+    {
+        // No preview for this tab
+    }
+    else if (event == TAB_ACTION)
+    {
+        // No action needed for static tab
+    }
+    else if (event == TAB_BACK)
+    {
+        // No action needed for this tab
+    }
 }

@@ -53,3 +53,4 @@ void application_show_file_menu(retro_file_t *file, bool simplified);
 bool application_get_file_crc32(retro_file_t *file);
 bool application_path_to_file(const char *path, retro_file_t *out_file);
 void crc_cache_prebuild(void);
+void xiaomiao_tab_register(void);
